@@ -497,10 +497,14 @@ class LgRefrigeratorCard extends HTMLElement {
           width: 44px; height: 44px; flex-shrink: 0;
           border: 1px solid var(--divider-color);
           border-radius: 14px;
-          background: var(--ha-card-background, var(--card-background-color));
+          background: #f4f6f8;
           box-shadow: 0 2px 6px rgba(0,0,0,.15);
         }
         .h-icon ha-icon { --mdc-icon-size: 24px; color: #0288d1; }
+        .wrap.dark-mode .h-icon {
+          background: var(--secondary-background-color);
+          box-shadow: 0 2px 8px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+        }
         .h-title {
           flex: 0 1 auto; min-width: 56px;
           overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
@@ -528,13 +532,19 @@ class LgRefrigeratorCard extends HTMLElement {
           width: 35px; height: 35px; flex-shrink: 0;
           border: 1px solid var(--divider-color); border-radius: 12px;
           color: var(--secondary-text-color);
-          background: var(--ha-card-background, var(--card-background-color));
+          background: #f4f6f8;
           cursor: pointer; transition: transform .12s ease;
+        }
+        .wrap.dark-mode .h-btn {
+          background: var(--secondary-background-color);
         }
         .h-btn:active { transform: scale(.94); }
         .h-btn ha-icon { --mdc-icon-size: 19px; }
         .h-btn.on {
           color: #039be5; border-color: #039be5;
+          background: rgba(3,155,229,.12);
+        }
+        .wrap.dark-mode .h-btn.on {
           background: rgba(3,155,229,.12);
         }
         .notification-banner {
@@ -571,8 +581,11 @@ class LgRefrigeratorCard extends HTMLElement {
           flex: 0 0 auto; min-width: 0;
           text-align: center; border: 1px solid var(--divider-color);
           border-radius: 12px; overflow: hidden;
-          background: var(--ha-card-background, var(--card-background-color));
+          background: #f6f8fa;
           display: flex; flex-direction: row; align-items: stretch;
+        }
+        .wrap.dark-mode .zone-panel {
+          background: var(--secondary-background-color);
         }
         .zone-center {
           flex: 1 1 auto; min-width: 0; padding: 12px 4px;
@@ -593,7 +606,7 @@ class LgRefrigeratorCard extends HTMLElement {
           width: 62px; flex-shrink: 0;
           border: none;
           color: var(--secondary-text-color);
-          background: var(--ha-card-background, var(--card-background-color));
+          background: transparent;
           cursor: pointer; transition: background-color .12s ease;
         }
         .stepper-btn:active { background-color: rgba(2,136,209,.12); }
@@ -605,7 +618,10 @@ class LgRefrigeratorCard extends HTMLElement {
           display: grid; grid-template-columns: repeat(3,1fr);
           margin-top: 12px; padding: 12px 16px;
           border: 1px solid var(--divider-color); border-radius: 12px;
-          background: var(--ha-card-background, var(--card-background-color));
+          background: #f6f8fa;
+        }
+        .wrap.dark-mode .panel {
+          background: var(--secondary-background-color);
         }
         .info-item { min-width: 0; padding: 0 10px; border-left: 1px solid var(--divider-color); cursor: pointer; }
         .info-item:first-child { border-left: 0; padding-left: 0; }
@@ -765,6 +781,8 @@ class LgRefrigeratorCard extends HTMLElement {
         const config = this._config;
         const text = this._t;
         const wrap = this._el("wrap");
+
+        wrap.classList.toggle("dark-mode", Boolean(this._hass?.themes?.darkMode));
 
         this._el("name").textContent = config.name || text.name;
 
