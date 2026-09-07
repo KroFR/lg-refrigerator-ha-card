@@ -4,7 +4,7 @@ A custom [Home Assistant](https://www.home-assistant.io/) Lovelace card for LG T
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="503" height="330" alt="image" src="https://github.com/user-attachments/assets/beb4c852-0d78-4c27-93b1-9771a97fd7ee" /> | <img width="504" height="334" alt="image" src="https://github.com/user-attachments/assets/8784d0f2-d640-4285-b6e9-2d45065fecdf" /> |
+| <img width="500" height="328" alt="image" src="https://github.com/user-attachments/assets/29878f92-ebb7-4245-9dbb-c797ca04978b" /> | <img width="500" height="328" alt="image" src="https://github.com/user-attachments/assets/29954897-2325-4203-a20f-719e4df518ec" /> |
 
 ## ✨ Features
 
@@ -81,7 +81,7 @@ The complete configuration, with both zone temperatures, the Bottom Freezer layo
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="502" height="329" alt="image" src="https://github.com/user-attachments/assets/cfc67d1e-62c4-476e-9125-c8a9d0a0d809" /> | <img width="503" height="332" alt="image" src="https://github.com/user-attachments/assets/456efb94-ffa0-4b70-8fdf-7b8579636e29" /> |
+| <img width="500" height="328" alt="image" src="https://github.com/user-attachments/assets/26b62c43-6053-4068-a4cf-2c420ca8f6f9" /> | <img width="500" height="328" alt="image" src="https://github.com/user-attachments/assets/dc7c6403-fcb7-4995-b9c0-4de9609760e8" /> |
 
 ```yaml
 type: custom:lg-refrigerator-card
@@ -103,8 +103,7 @@ Minimal example (temperature zones only, illustration hidden) with forced langua
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="501" height="244" alt="image" src="https://github.com/user-attachments/assets/3f75a980-df76-4d5b-b5f2-656e1eeebc93" /> | <img width="506" height="249" alt="image" src="https://github.com/user-attachments/assets/56dc27f1-db1b-41a0-a370-c253ed2e20ed" />
- |
+| <img width="500" height="245" alt="image" src="https://github.com/user-attachments/assets/4d2c6f0c-2688-4a4b-a83a-bc3d91e9420a" /> | <img width="500" height="245" alt="image" src="https://github.com/user-attachments/assets/f14f00a0-947f-42a6-98cf-bfb05bf077e4" /> |
 
 ```yaml
 type: custom:lg-refrigerator-card
