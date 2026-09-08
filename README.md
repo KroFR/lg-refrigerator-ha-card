@@ -47,7 +47,7 @@ This card is designed to work with entities exposed by the [LG Thinq](https://ww
 4. Select **Add resource**, set the URL to `/hacsfiles/ha-lg-refrigerator-card/lg-refrigerator-card.js?v=1`, and set resource type to **JavaScript module**.
 5. Refresh your browser.
 
-## Adding the card
+### Adding the card
 
 1. Edit any dashboard and select **Add Card**.
 2. Search for **LG Refrigerator Card**, or select **Manual** and use the YAML shown below.
