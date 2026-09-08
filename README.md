@@ -1,3 +1,9 @@
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
+[![GitHub Release](https://img.shields.io/github/v/release/KroFR/ha-lg-refrigerator-card)](https://github.com/KroFR/ha-lg-refrigerator-card/releases)
+[![Static Badge](https://img.shields.io/badge/Home_Assistant-2024.1+-blue)](https://www.home-assistant.io/)
+[![HACS Validation](https://github.com/KroFR/ha-lg-refrigerator-card/actions/workflows/hacs.yaml/badge.svg)](https://github.com/KroFR/ha-lg-refrigerator-card/actions/workflows/hacs.yaml)
+[![License](https://img.shields.io/github/license/KroFR/ha-lg-refrigerator-card)](https://github.com/KroFR/ha-lg-refrigerator-card/blob/main/LICENSE)
+
 # ❄️ LG Refrigerator Card
 
 A custom [Home Assistant](https://www.home-assistant.io/) Lovelace card for LG ThinQ refrigerators (French Door, Side-by-Side, Bottom Freezer, Top Freezer). It displays fridge and freezer temperature setpoints, door status, Express Freeze mode, air/water filter status, water usage, and dismissible notifications, all in a compact, mobile-friendly layout.
