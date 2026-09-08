@@ -1,5 +1,7 @@
 {
   "name": "LG Refrigerator Card",
   "filename": "ha-lg-refrigerator-card.js",
-  "render_readme": true
+  "render_readme": true,
+  "content_in_root": false,
+  "homeassistant": "2024.1.0"
 }
