@@ -1,8 +1,10 @@
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
-[![GitHub Release](https://img.shields.io/github/v/release/KroFR/ha-lg-refrigerator-card)](https://github.com/KroFR/ha-lg-refrigerator-card/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/KroFR/lg-refrigerator-ha-card)](https://github.com/KroFR/lg-refrigerator-ha-card/releases)
 [![Static Badge](https://img.shields.io/badge/Home_Assistant-2024.1+-blue)](https://www.home-assistant.io/)
-[![HACS Validation](https://github.com/KroFR/ha-lg-refrigerator-card/actions/workflows/hacs.yaml/badge.svg)](https://github.com/KroFR/ha-lg-refrigerator-card/actions/workflows/hacs.yaml)
-[![License](https://img.shields.io/github/license/KroFR/ha-lg-refrigerator-card)](https://github.com/KroFR/ha-lg-refrigerator-card/blob/main/LICENSE)
+[![HACS Validation](https://github.com/KroFR/lg-refrigerator-ha-card/actions/workflows/hacs.yaml/badge.svg)](https://github.com/KroFR/lg-refrigerator-ha-card/actions/workflows/hacs.yaml)
+[![License](https://img.shields.io/github/license/KroFR/lg-refrigerator-ha-card)](https://github.com/KroFR/lg-refrigerator-ha-card/blob/main/LICENSE)
+
+
 
 # ❄️ LG Refrigerator Card
 
@@ -40,7 +42,7 @@ This card is designed to work with entities exposed by the [LG Thinq](https://ww
 1. Open **HACS** in Home Assistant.
 2. Click on the three dots in the top right corner
 3. Select "Custom repositories"
-4. Add this repository URL `https://github.com/KroFR/ha-lg-refrigerator-card`
+4. Add this repository URL `https://github.com/KroFR/lg-refrigerator-ha-card`
 5. Select "Dashboard"
 6. Click "Add"
 7. Search for **LG Refrigerator Card** and install it
@@ -48,9 +50,9 @@ This card is designed to work with entities exposed by the [LG Thinq](https://ww
 ### Manual installation
 
 1. Download `lg-refrigerator-card.js` from the `dist` folder of this repository.
-2. Copy it into your Home Assistant `www/community/ha-lg-refrigerator-card/lg-refrigerator-card.js` folder.
+2. Copy it into your Home Assistant `www/community/lg-refrigerator-ha-card/lg-refrigerator-card.js` folder.
 3. Go to **Settings** > **Dashboards** > three-dot menu > **Resources**.
-4. Select **Add resource**, set the URL to `/hacsfiles/ha-lg-refrigerator-card/lg-refrigerator-card.js?v=1`, and set resource type to **JavaScript module**.
+4. Select **Add resource**, set the URL to `/hacsfiles/lg-refrigerator-ha-card/lg-refrigerator-card.js?v=1`, and set resource type to **JavaScript module**.
 5. Refresh your browser.
 
 ### Adding the card
@@ -122,4 +124,4 @@ language: fr
 
 ## 📄 License
 
-[<img width="78" height="20" alt="image" src="https://github.com/user-attachments/assets/c14c93d7-50c2-4726-9a47-77f6c466e5b5" />](https://github.com/KroFR/ha-lg-refrigerator-card/blob/main/LICENSE)
+[<img width="78" height="20" alt="image" src="https://github.com/user-attachments/assets/c14c93d7-50c2-4726-9a47-77f6c466e5b5" />](https://github.com/KroFR/lg-refrigerator-ha-card/blob/main/LICENSE)
