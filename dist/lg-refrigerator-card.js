@@ -8,6 +8,8 @@
  *
  */
 
+const CARD_VERSION = "1.0.5";
+
 class LgRefrigeratorCard extends HTMLElement {
     static STRINGS = {
         en: {
@@ -928,6 +930,20 @@ class LgRefrigeratorCardEditor extends HTMLElement {
     static DEFAULT_FRIDGE_LAYOUT = "french_door";
     static DEFAULT_VISUAL_POSITION = "left";
 
+    static SECTION_ICONS = {
+        general: "mdi:cog-outline",
+        zone1: "mdi:fridge-outline",
+        zone2: "mdi:snowflake",
+        door: "mdi:door",
+        filters: "mdi:air-filter",
+    };
+
+    static PLACEHOLDER_TEXT_KEYS = {
+        name: "name",
+        zone1_label: "zone1_label",
+        zone2_label: "zone2_label",
+    };
+
     constructor() {
         super();
         this._rendered = false;
@@ -966,7 +982,29 @@ class LgRefrigeratorCardEditor extends HTMLElement {
         ];
     }
 
+    _defaultStrings() {
+        const strings = LgRefrigeratorCard.STRINGS;
+        const configured = String(this._config?.language || "").toLowerCase();
+        if (configured && strings[configured])
+            return strings[configured];
+        const profileLanguage = (
+            this._hass?.locale?.language || this._hass?.language || "").toLowerCase();
+        if (profileLanguage) {
+            if (strings[profileLanguage])
+                return strings[profileLanguage];
+            const base = profileLanguage.split(/[-_]/)[0];
+            if (strings[base])
+                return strings[base];
+        }
+        return strings.en;
+    }
+
+    _sectionSummary(icon, title) {
+        return `<summary><span class="section-title"><ha-icon icon="${icon}"></ha-icon>${title}</span></summary>`;
+    }
+
     _render() {
+        const icons = LgRefrigeratorCardEditor.SECTION_ICONS;
         this.innerHTML = `
       <style>
         .editor { display: grid; gap: 12px; padding: 8px 0; }
@@ -983,6 +1021,8 @@ class LgRefrigeratorCardEditor extends HTMLElement {
           list-style: none; user-select: none;
         }
         summary::-webkit-details-marker { display: none; }
+        .section-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+        .section-title ha-icon { --mdc-icon-size: 20px; color: var(--secondary-text-color); flex-shrink: 0; }
         summary::after {
           content: ""; width: 8px; height: 8px; flex-shrink: 0;
           border-right: 2px solid var(--secondary-text-color);
@@ -1012,7 +1052,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 
       <div class="editor">
         <details class="section" open>
-          <summary>General</summary>
+          ${this._sectionSummary(icons.general, "General")}
           <div class="section-content"><div class="entity-grid">
             <label>Card name<input data-config="name" type="text"></label>
             <div class="field"><span>Language</span><ha-selector data-config="language"></ha-selector></div>
@@ -1025,11 +1065,11 @@ class LgRefrigeratorCardEditor extends HTMLElement {
           </div></div>
         </details>
 
-        ${this._zoneSection(1, "Fridge")}
-        ${this._zoneSection(2, "Freezer")}
+        ${this._zoneSection(1, "Fridge", icons.zone1)}
+        ${this._zoneSection(2, "Freezer", icons.zone2)}
 
         <details class="section">
-          <summary>Door & notifications</summary>
+          ${this._sectionSummary(icons.door, "Door & notifications")}
           <div class="section-content"><div class="entity-grid">
             ${this._entityPicker("door_entity", "Door entity", ["binary_sensor"])}
             ${this._entityPicker("express_mode_entity", "Express Freeze switch", ["switch"])}
@@ -1038,7 +1078,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
         </details>
 
         <details class="section">
-          <summary>Filters & water usage</summary>
+          ${this._sectionSummary(icons.filters, "Filters & water usage")}
           <div class="section-content"><div class="entity-grid">
             ${this._entityPicker("air_filter_entity", "Air filter entity", ["sensor"])}
             ${this._entityPicker("water_filter_entity", "Water filter entity", ["sensor"])}
@@ -1057,10 +1097,10 @@ class LgRefrigeratorCardEditor extends HTMLElement {
         return `<div class="field"><span>${label}</span><ha-entity-picker data-config="${key}" data-domains="${domains.join(',')}" allow-custom-entity></ha-entity-picker></div>`;
     }
 
-    _zoneSection(zone, defaultTitle) {
+    _zoneSection(zone, defaultTitle, icon) {
         return `
       <details class="section">
-        <summary>${defaultTitle}</summary>
+        ${this._sectionSummary(icon, defaultTitle)}
         <div class="section-content">
           <div class="entity-grid">
             <label>Label<input data-config="zone${zone}_label" type="text"></label>
@@ -1148,6 +1188,10 @@ class LgRefrigeratorCardEditor extends HTMLElement {
                 return;
             }
 
+            const placeholderKey = LgRefrigeratorCardEditor.PLACEHOLDER_TEXT_KEYS[key];
+            if (placeholderKey)
+                element.placeholder = this._defaultStrings()[placeholderKey];
+
             if (document.activeElement !== element)
                 element.value = value ?? "";
         });
@@ -1211,3 +1255,5 @@ if (!window.customCards.some((card) => card.type === "lg-refrigerator-card")) {
         preview: true,
     });
 }
+
+console.info(`%c LG-REFRIGERATOR-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
