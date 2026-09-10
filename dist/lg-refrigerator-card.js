@@ -8,7 +8,7 @@
  *
  */
 
-const CARD_VERSION = "1.0.5";
+const CARD_VERSION = "1.0.6";
 
 class LgRefrigeratorCard extends HTMLElement {
     static STRINGS = {
@@ -1257,4 +1257,4 @@ if (!window.customCards.some((card) => card.type === "lg-refrigerator-card")) {
     });
 }
 
-console.info(`%c LG-REFRIGERATOR-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
+console.info(`%c ❄️ LG-REFRIGERATOR-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
