@@ -1253,6 +1253,7 @@ if (!window.customCards.some((card) => card.type === "lg-refrigerator-card")) {
         name: "LG Refrigerator Card",
         description: "Refrigerator card (French Door, Side-by-Side, Bottom Freezer, Top Freezer) with freezer/fridge setpoints, door status, filters and notifications",
         preview: true,
+		documentationURL: "https://github.com/KroFR/lg-refrigerator-ha-card",
     });
 }
 
