@@ -8,7 +8,7 @@
  *
  */
 
-const CARD_VERSION = "1.0.6";
+const CARD_VERSION = "1.0.7";
 
 class LgRefrigeratorCard extends HTMLElement {
     static STRINGS = {
@@ -20,10 +20,13 @@ class LgRefrigeratorCard extends HTMLElement {
             air_filter: "Air filter",
             water_filter: "Water filter",
             water_used: "Water filtered",
+            power: "Power",
             express_on: "Express Freeze on",
             express_off: "Express Freeze off",
             tip_express: "Express Freeze",
             tip_dismiss: "Dismiss",
+            tip_plug: "Refrigerator plug",
+            confirm_plug_off: "Turn off the plug? This will stop the refrigerator.",
             notification_title: "ALERT",
             zone1_label: "FRIDGE",
             zone2_label: "FREEZER",
@@ -36,10 +39,13 @@ class LgRefrigeratorCard extends HTMLElement {
             air_filter: "Filtre à air",
             water_filter: "Filtre à eau",
             water_used: "Eau filtrée",
+            power: "Puissance",
             express_on: "Freeze Express activé",
             express_off: "Freeze Express désactivé",
             tip_express: "Freeze Express",
             tip_dismiss: "Ignorer",
+            tip_plug: "Prise du réfrigérateur",
+            confirm_plug_off: "Éteindre la prise ? Cela arrêtera le réfrigérateur.",
             notification_title: "ALERTE",
             zone1_label: "RÉFRIGÉRATEUR",
             zone2_label: "CONGÉLATEUR",
@@ -52,10 +58,13 @@ class LgRefrigeratorCard extends HTMLElement {
             air_filter: "Filtro de aire",
             water_filter: "Filtro de agua",
             water_used: "Agua filtrada",
+            power: "Potencia",
             express_on: "Congelación rápida activada",
             express_off: "Congelación rápida desactivada",
             tip_express: "Congelación rápida",
             tip_dismiss: "Descartar",
+            tip_plug: "Enchufe del frigorífico",
+            confirm_plug_off: "¿Apagar el enchufe? Esto detendrá el frigorífico.",
             notification_title: "ALERTA",
             zone1_label: "NEVERA",
             zone2_label: "CONGELADOR",
@@ -68,10 +77,13 @@ class LgRefrigeratorCard extends HTMLElement {
             air_filter: "Filtro dell'aria",
             water_filter: "Filtro dell'acqua",
             water_used: "Acqua filtrata",
+            power: "Potenza",
             express_on: "Congelamento rapido attivo",
             express_off: "Congelamento rapido disattivo",
             tip_express: "Congelamento rapido",
             tip_dismiss: "Ignora",
+            tip_plug: "Presa del frigorifero",
+            confirm_plug_off: "Spegnere la presa? Questo fermerà il frigorifero.",
             notification_title: "AVVISO",
             zone1_label: "FRIGORIFERO",
             zone2_label: "CONGELATORE",
@@ -84,10 +96,13 @@ class LgRefrigeratorCard extends HTMLElement {
             air_filter: "Filtro de ar",
             water_filter: "Filtro de água",
             water_used: "Água filtrada",
+            power: "Potência",
             express_on: "Congelação rápida ativada",
             express_off: "Congelação rápida desativada",
             tip_express: "Congelação rápida",
             tip_dismiss: "Ignorar",
+            tip_plug: "Tomada do frigorífico",
+            confirm_plug_off: "Desligar a tomada? Isso irá parar o frigorífico.",
             notification_title: "ALERTA",
             zone1_label: "FRIGORÍFICO",
             zone2_label: "CONGELADOR",
@@ -100,10 +115,13 @@ class LgRefrigeratorCard extends HTMLElement {
             air_filter: "Luftfilter",
             water_filter: "Wasserfilter",
             water_used: "Gefiltertes Wasser",
+            power: "Leistung",
             express_on: "Schnellgefrieren an",
             express_off: "Schnellgefrieren aus",
             tip_express: "Schnellgefrieren",
             tip_dismiss: "Ausblenden",
+            tip_plug: "Steckdose des Kühlschranks",
+            confirm_plug_off: "Steckdose ausschalten? Dadurch wird der Kühlschrank gestoppt.",
             notification_title: "WARNUNG",
             zone1_label: "KÜHLSCHRANK",
             zone2_label: "GEFRIERSCHRANK",
@@ -116,10 +134,13 @@ class LgRefrigeratorCard extends HTMLElement {
             air_filter: "Luchtfilter",
             water_filter: "Waterfilter",
             water_used: "Gefilterd water",
+            power: "Vermogen",
             express_on: "Snelvriezen aan",
             express_off: "Snelvriezen uit",
             tip_express: "Snelvriezen",
             tip_dismiss: "Negeren",
+            tip_plug: "Stekker koelkast",
+            confirm_plug_off: "Stekker uitschakelen? Hierdoor stopt de koelkast.",
             notification_title: "MELDING",
             zone1_label: "KOELKAST",
             zone2_label: "VRIEZER",
@@ -130,10 +151,12 @@ class LgRefrigeratorCard extends HTMLElement {
         fridge_layout: "french_door",
         fridge_visual_position: "left",
         hide_fridge_visual: false,
+        confirm_plug_off: true,
         no_notification_states: ["none", "unknown", "unavailable", ""],
     };
 
     static NO_FILTER_STATES = ["unknown", "unavailable", ""];
+    static INFO_ITEM_KEYS = ["airFilterItem", "waterFilterItem", "waterUsedItem", "powerItem"];
 
     static ZONE_FALLBACK_BOUNDS = {
         1: {
@@ -617,7 +640,7 @@ class LgRefrigeratorCard extends HTMLElement {
         .stepper-btn ha-icon { --mdc-icon-size: 30px; }
         .stepper-btn.disabled { opacity: .35; pointer-events: none; }
         .panel {
-          display: grid; grid-template-columns: repeat(3,1fr);
+          display: grid; grid-template-columns: repeat(auto-fit,minmax(0,1fr));
           margin-top: 12px; padding: 12px 16px;
           border: 1px solid var(--divider-color); border-radius: 12px;
           background: #f6f8fa;
@@ -626,7 +649,7 @@ class LgRefrigeratorCard extends HTMLElement {
           background: var(--secondary-background-color);
         }
         .info-item { min-width: 0; padding: 0 10px; border-left: 1px solid var(--divider-color); cursor: pointer; }
-        .info-item:first-child { border-left: 0; padding-left: 0; }
+        .info-item.no-border { border-left: 0; padding-left: 0; }
         .info-label { color: var(--secondary-text-color); font-size: 10px; font-weight: 700; letter-spacing: .8px; }
         .info-value { margin-top: 4px; color: var(--primary-text-color); font-size: 13.5px; font-weight: 800; overflow-wrap: break-word; }
         .info-value.warn { color: var(--error-color,#f44336); }
@@ -641,6 +664,9 @@ class LgRefrigeratorCard extends HTMLElement {
             <div class="h-title" id="name"></div>
             <div class="badge hidden" id="badge"><span class="b-dot"></span><span id="badgeText"></span></div>
             <div class="h-spacer"></div>
+            <div class="h-btn hidden" id="plugBtn" title="${text.tip_plug}">
+              <ha-icon icon="mdi:power-socket-eu"></ha-icon>
+            </div>
             <div class="h-btn hidden" id="expressBtn" title="${text.tip_express}">
               <ha-icon icon="mdi:snowflake" id="expressIcon"></ha-icon>
             </div>
@@ -672,6 +698,7 @@ class LgRefrigeratorCard extends HTMLElement {
             <div class="info-item hidden" id="airFilterItem"><div class="info-label">${text.air_filter}</div><div class="info-value" id="airFilterValue">—</div></div>
             <div class="info-item hidden" id="waterFilterItem"><div class="info-label">${text.water_filter}</div><div class="info-value" id="waterFilterValue">—</div></div>
             <div class="info-item hidden" id="waterUsedItem"><div class="info-label">${text.water_used}</div><div class="info-value" id="waterUsedValue">—</div></div>
+            <div class="info-item hidden" id="powerItem"><div class="info-label">${text.power}</div><div class="info-value" id="powerValue">—</div></div>
           </div>
         </div>
       </ha-card>
@@ -686,9 +713,11 @@ class LgRefrigeratorCard extends HTMLElement {
             this._dismissNotification();
         });
         this._el("expressBtn").addEventListener("click", () => this._onExpressClick());
+        this._el("plugBtn").addEventListener("click", () => this._confirmTogglePlug());
         this._el("airFilterItem").addEventListener("click", moreInfo(config.air_filter_entity));
         this._el("waterFilterItem").addEventListener("click", moreInfo(config.water_filter_entity));
         this._el("waterUsedItem").addEventListener("click", moreInfo(config.water_filter_used_entity));
+        this._el("powerItem").addEventListener("click", moreInfo(config.power_entity));
         this._el("badge").addEventListener("click", moreInfo(config.door_entity));
 
         for (const zone of [1, 2]) {
@@ -732,6 +761,23 @@ class LgRefrigeratorCard extends HTMLElement {
         this._hass.callService("switch", "toggle", {
             entity_id: entityId
         });
+    }
+    _toggle(entityId) {
+        const domain = entityId.split(".")[0];
+        const svcDomain = ["switch", "light", "input_boolean", "fan", "automation"].includes(domain)
+             ? domain
+             : "homeassistant";
+        this._hass.callService(svcDomain, "toggle", {
+            entity_id: entityId
+        });
+    }
+    _confirmTogglePlug() {
+        const config = this._config;
+        const text = this._t;
+        const isOn = this._st(config.plug_entity)?.state === "on";
+        if (isOn && config.confirm_plug_off !== false && !window.confirm(text.confirm_plug_off))
+            return;
+        this._toggle(config.plug_entity);
     }
 
     _dismissNotification() {
@@ -821,6 +867,15 @@ class LgRefrigeratorCard extends HTMLElement {
         }
         this._el("drawerGlow").setAttribute("opacity", expressOn ? ".45" : "0");
 
+        if (config.plug_entity) {
+            const plugOn = this._st(config.plug_entity)?.state === "on";
+            this._el("plugBtn").classList.remove("hidden");
+            this._el("plugBtn").classList.toggle("on", plugOn);
+            this._el("plugBtn").title = text.tip_plug;
+        } else {
+            this._el("plugBtn").classList.add("hidden");
+        }
+
         if (config.notification_entity) {
             const state = this._st(config.notification_entity);
             const eventType = state?.attributes?.event_type;
@@ -876,6 +931,15 @@ class LgRefrigeratorCard extends HTMLElement {
         } else
             this._el("waterUsedItem").classList.add("hidden");
 
+        if (config.power_entity) {
+            const value = this._num(config.power_entity);
+            this._el("powerItem").classList.remove("hidden");
+            this._el("powerValue").textContent = value !== null ? `${this._fmtNum(value, 0)} W` : "N/A";
+            anyInfo = true;
+        } else
+            this._el("powerItem").classList.add("hidden");
+
+        this._updateInfoItemBorders();
         this._el("infoPanel").classList.toggle("hidden", !anyInfo);
     }
 
@@ -897,6 +961,21 @@ class LgRefrigeratorCard extends HTMLElement {
 
         this._el(`zone${zone}Minus`).classList.toggle("disabled", value === null || value <= min);
         this._el(`zone${zone}Plus`).classList.toggle("disabled", value === null || value >= max);
+    }
+    _updateInfoItemBorders() {
+        let firstVisibleKey = null;
+        for (const itemKey of LgRefrigeratorCard.INFO_ITEM_KEYS) {
+            const node = this._el(itemKey);
+            if (node && !node.classList.contains("hidden")) {
+                firstVisibleKey = itemKey;
+                break;
+            }
+        }
+        for (const itemKey of LgRefrigeratorCard.INFO_ITEM_KEYS) {
+            const node = this._el(itemKey);
+            if (node)
+                node.classList.toggle("no-border", itemKey === firstVisibleKey);
+        }
     }
 }
 
@@ -929,6 +1008,9 @@ class LgRefrigeratorCardEditor extends HTMLElement {
     static AUTO_LANGUAGE = "auto";
     static DEFAULT_FRIDGE_LAYOUT = "french_door";
     static DEFAULT_VISUAL_POSITION = "left";
+    static SWITCH_DEFAULTS = {
+        confirm_plug_off: LgRefrigeratorCard.DEFAULTS.confirm_plug_off,
+    };
 
     static SECTION_ICONS = {
         general: "mdi:cog-outline",
@@ -936,6 +1018,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
         zone2: "mdi:snowflake",
         door: "mdi:door",
         filters: "mdi:air-filter",
+        power: "mdi:flash-outline",
     };
 
     static PLACEHOLDER_TEXT_KEYS = {
@@ -1085,6 +1168,18 @@ class LgRefrigeratorCardEditor extends HTMLElement {
             ${this._entityPicker("water_filter_used_entity", "Water filtered (m³) entity", ["sensor"])}
           </div></div>
         </details>
+
+        <details class="section">
+          ${this._sectionSummary(icons.power, "Power monitoring")}
+          <div class="section-content"><div class="entity-grid">
+            ${this._entityPicker("power_entity", "Power entity", ["sensor"])}
+            ${this._entityPicker("plug_entity", "Plug entity", ["switch", "input_boolean"])}
+            <div class="switch-row">
+              <div class="switch-text"><span class="switch-label">Confirm before turning off plug</span><span class="field-description">Show a confirmation popup when turning off the plug entity.</span></div>
+              <ha-switch data-config="confirm_plug_off"></ha-switch>
+            </div>
+          </div></div>
+        </details>
       </div>
     `;
 
@@ -1184,7 +1279,9 @@ class LgRefrigeratorCardEditor extends HTMLElement {
                 return;
             }
             if (element.tagName === "HA-SWITCH") {
-                element.checked = value === true;
+                const isEmpty = value === undefined || value === null;
+                const fallback = LgRefrigeratorCardEditor.SWITCH_DEFAULTS[key];
+                element.checked = isEmpty && fallback !== undefined ? fallback : value === true;
                 return;
             }
 
