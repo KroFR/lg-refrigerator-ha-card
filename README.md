@@ -12,7 +12,7 @@ A custom [Home Assistant](https://www.home-assistant.io/) Lovelace card for LG T
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="500" height="328" alt="image" src="https://github.com/user-attachments/assets/29878f92-ebb7-4245-9dbb-c797ca04978b" /> | <img width="500" height="328" alt="image" src="https://github.com/user-attachments/assets/29954897-2325-4203-a20f-719e4df518ec" /> |
+| <img width="472" height="328" alt="image" src="https://github.com/user-attachments/assets/92fc475d-f188-4775-bcfa-0d9b77f7a1bc" /> | <img width="473" height="329" alt="image" src="https://github.com/user-attachments/assets/c2e46e3c-adaa-476b-9460-739eba6eb8a4" /> |
 
 ## ✨ Features
 
@@ -21,6 +21,7 @@ A custom [Home Assistant](https://www.home-assistant.io/) Lovelace card for LG T
 - **Express Freeze toggle** with visual on/off state.
 - **Air and water filter status**, with automatic warning highlight when a filter needs replacement.
 - **Water usage tracking** (in m³).
+- **Power monitoring (W)** with optional smart plug control and turn-off confirmation.
 - **Dismissible notification banner** for appliance alerts. Once dismissed, the same notification won't reappear, it stays hidden until a *new* notification arrives (persisted per browser via `localStorage`).
 - **Multi-language support**: English, French, Spanish, Italian, Portuguese, German, and Dutch. Automatically detects your Home Assistant profile language, or can be forced via configuration.
 - **Refrigerator Layouts**: Choose your model (French Door, Side-by-Side, Bottom Freezer, or Top Freezer) directly from the visual editor, and the illustration adapts automatically, including door positions, handles, and control panel placement.
@@ -74,6 +75,9 @@ This card is designed to work with entities exposed by the [LG Thinq](https://ww
 | `air_filter_entity` | string (`sensor`) | No | — | Air filter status sensor. |
 | `water_filter_entity` | string (`sensor`) | No | — | Water filter status sensor. |
 | `water_filter_used_entity` | string (`sensor`) | No | — | Sensor reporting total filtered water usage, in m³. |
+| `power_entity` | string | no | — | Power consumption sensor if your refregirator is connected to a smart plug |
+| `plug_entity` | string | no | — | Smart plug switch used to power the refregirator on or off |
+| `confirm_plug_off` | boolean | no | `true` | Show a confirmation popup before turning the plug off |
 | `zone1_label` | string | No | — | Label for the first temperature zone. |
 | `zone1_temp_entity` | string (`number`) | No | — | Number entity controlling the fridge temperature setpoint. |
 | `zone2_label` | string | No | — | Label for the second temperature zone. |
