@@ -274,6 +274,10 @@ class LgRefrigeratorCard extends HTMLElement {
 		 ? String(Number.parseFloat(number.toFixed(digits)))
 		 : String(Math.round(number));
 	}
+	_capitalize(value) {
+		const text = String(value ?? "");
+		return text ? text.charAt(0).toUpperCase() + text.slice(1) : text;
+	}
 	_moreInfo(entityId) {
 		if (!entityId)
 			return;
@@ -879,7 +883,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			const raw = String(state?.state ?? "").toLowerCase();
 			const hasWarning = raw.includes("replace") || raw.includes("change");
 			this._el("airFilterItem").classList.remove("hidden");
-			this._el("airFilterValue").textContent = state && !LgRefrigeratorCard.NO_FILTER_STATES.includes(raw) ? state.state : "N/A";
+			this._el("airFilterValue").textContent = state && !LgRefrigeratorCard.NO_FILTER_STATES.includes(raw) ? this._capitalize(state.state) : "N/A";
 			this._el("airFilterValue").classList.toggle("warn", hasWarning);
 			anyInfo = true;
 		} else
@@ -889,7 +893,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			const raw = String(state?.state ?? "").toLowerCase();
 			const hasWarning = raw.includes("replace") || raw.includes("change");
 			this._el("waterFilterItem").classList.remove("hidden");
-			this._el("waterFilterValue").textContent = state && !LgRefrigeratorCard.NO_FILTER_STATES.includes(raw) ? state.state : "N/A";
+			this._el("waterFilterValue").textContent = state && !LgRefrigeratorCard.NO_FILTER_STATES.includes(raw) ? this._capitalize(state.state) : "N/A";
 			this._el("waterFilterValue").classList.toggle("warn", hasWarning);
 			anyInfo = true;
 		} else
