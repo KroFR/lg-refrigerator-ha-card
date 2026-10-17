@@ -16,17 +16,17 @@ A custom [Home Assistant](https://www.home-assistant.io/) Lovelace card for LG T
 
 ## ✨ Features
 
-- **Two independent temperature zones** (fridge and freezer) with +/- stepper controls that respect each entity's own min/max/step attributes.
+- **Two independent temperature zones** (fridge and freezer) with +/- stepper controls that respect each entity's min/max/step attributes.
 - **Door status indicator** with a live pulsing badge when the door is open.
 - **Express Freeze toggle** with visual on/off state.
-- **Air and water filter status**, with automatic warning highlight when a filter needs replacement.
+- **Air and water filter status**, with automatic warning highlighting when a filter needs replacement.
 - **Water usage tracking** (in m³).
 - **Power monitoring (W)** with optional smart plug control and turn-off confirmation.
-- **Dismissible notification banner** for appliance alerts. Once dismissed, the same notification won't reappear, it stays hidden until a *new* notification arrives (persisted per browser via `localStorage`).
-- **Multi-language support**: English, French, Spanish, Italian, Portuguese, German, and Dutch. Automatically detects your Home Assistant profile language, or can be forced via configuration.
-- **Refrigerator Layouts**: Choose your model (French Door, Side-by-Side, Bottom Freezer, or Top Freezer) directly from the visual editor, and the illustration adapts automatically, including door positions, handles, and control panel placement.
-- **Configurable illustration**: show/hide the refrigerator illustration, and choose whether it appears on the left or right of the temperature zones.
-- **Visual editor**: fully configurable through the Lovelace UI editor, no YAML required.
+- **Dismissible notification banner** for appliance notifications. Once dismissed, the same notification stays hidden until a new notification arrives. Dismissed notifications are stored per Home Assistant user and synchronized across sessions.
+- **Multi-language support**: English, French, Spanish, Italian, Portuguese, German, and Dutch. Automatically uses your Home Assistant profile language, or can be overridden in the card configuration.
+- **Multiple refrigerator layouts**: French Door, Side-by-Side, Bottom Freezer, and Top Freezer. The illustration adapts automatically to the selected layout, including door positions, handles, and control panel placement.
+- **Configurable illustration**: show or hide the refrigerator illustration and choose whether it appears on the left or right of the temperature zones.
+- **Visual editor**: configure the card directly through the Lovelace UI editor, with no YAML required.
 
 ## ℹ️ Prerequisite
 
