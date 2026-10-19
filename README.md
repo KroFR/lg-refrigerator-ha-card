@@ -66,7 +66,7 @@ This card is designed to work with entities exposed by the [LG Thinq](https://ww
 
 | Name | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `type` | string | Yes | — | Must be `custom:lg-refrigerator-card`. |
+| `type` | string | Yes | — | `custom:lg-refrigerator-card` |
 | `name` | string | No | — | Card title shown in the header. |
 | `language` | string | No | — | Force a specific language. One of `en`, `fr`, `es`, `it`, `pt`, `de`, `nl`. Leave unset to auto-detect from your Home Assistant profile. |
 | `door_entity` | string (`binary_sensor`) | No | — | Entity reporting the refrigerator door state (`on` = open). |
