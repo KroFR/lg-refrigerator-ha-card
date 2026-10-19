@@ -51,7 +51,7 @@ This card is designed to work with entities exposed by the [LG Thinq](https://ww
 ### Manual installation
 
 1. Download `lg-refrigerator-card.js` from the `dist` folder of this repository.
-2. Copy it into your Home Assistant `www/community/lg-refrigerator-ha-card/lg-refrigerator-card.js` folder.
+2. Copy it into your Home Assistant `/local/community/lg-refrigerator-ha-card/lg-refrigerator-card.js` folder.
 3. Go to **Settings** > **Dashboards** > three-dot menu > **Resources**.
 4. Select **Add resource**, set the URL to `/hacsfiles/lg-refrigerator-ha-card/lg-refrigerator-card.js?v=1`, and set resource type to **JavaScript module**.
 5. Refresh your browser.
