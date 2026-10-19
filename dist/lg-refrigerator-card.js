@@ -10,6 +10,9 @@
 
 const CARD_VERSION = "1.0.10";
 
+/* ---------------------------------------------------------------------- */
+/*  Main card                                                             */
+/* ---------------------------------------------------------------------- */
 class LgRefrigeratorCard extends HTMLElement {
 	static USER_DATA_KEY = "lg_refrigerator_card";
 	static TRANSLATIONS = {
@@ -998,6 +1001,9 @@ class LgRefrigeratorCard extends HTMLElement {
 	}
 }
 
+/* ---------------------------------------------------------------------- */
+/*  Visual editor                                                         */
+/* ---------------------------------------------------------------------- */
 class LgRefrigeratorCardEditor extends HTMLElement {
 	static SELECT_OPTIONS = {
 		fridge_layout: [{
@@ -1337,6 +1343,9 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 	}
 }
 
+/* ---------------------------------------------------------------------- */
+/*  Registration                                                          */
+/* ---------------------------------------------------------------------- */
 if (!customElements.get("lg-refrigerator-card-editor")) {
 	customElements.define("lg-refrigerator-card-editor", LgRefrigeratorCardEditor);
 }
