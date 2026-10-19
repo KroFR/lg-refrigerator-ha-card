@@ -8,7 +8,7 @@
  *
  */
 
-const CARD_VERSION = "1.0.9";
+const CARD_VERSION = "1.0.10";
 
 class LgRefrigeratorCard extends HTMLElement {
 	static USER_DATA_KEY = "lg_refrigerator_card";
@@ -147,6 +147,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			zone2_label: "VRIEZER",
 		},
 	};
+
 	static DEFAULTS = {
 		fridge_layout: "french_door",
 		fridge_visual_position: "left",
@@ -154,6 +155,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		confirm_plug_off: true,
 		no_notification_states: ["none", "unknown", "unavailable", ""],
 	};
+
 	static NO_FILTER_STATES = ["unknown", "unavailable", ""];
 	static INFO_ITEM_KEYS = ["airFilterItem", "waterFilterItem", "waterUsedItem", "powerItem"];
 	static ZONE_FALLBACK_BOUNDS = {
@@ -168,6 +170,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			step: 1
 		},
 	};
+
 	static VISUAL_ORDER = {
 		left: {
 			visual: 0,
@@ -178,13 +181,16 @@ class LgRefrigeratorCard extends HTMLElement {
 			zones: 0
 		},
 	};
+
 	static getConfigElement() {
 		return document.createElement("lg-refrigerator-card-editor");
 	}
+
 	static getStubConfig() {
 		return {
 		};
 	}
+
 	static languageDisplayName(code) {
 		try {
 			const displayNames = new Intl.DisplayNames([code], {
@@ -196,6 +202,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			return code;
 		}
 	}
+
 	constructor() {
 		super();
 		this._userData = { dismissed_notifications: {} };
@@ -203,6 +210,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		this._userDataSubscribed = false;
 		this._dismissedNotificationKey = null;
 	}
+
 	setConfig(config) {
 		this._config = {
 			...LgRefrigeratorCard.DEFAULTS,
@@ -216,6 +224,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			this._update();
 		}
 	}
+
 	set hass(hass) {
 		this._hass = hass;
 		this._subscribeUserData();
@@ -223,6 +232,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			this._build();
 		this._update();
 	}
+
 	disconnectedCallback() {
 		if (this._unsubscribeUserData) {
 			this._unsubscribeUserData();
@@ -230,9 +240,11 @@ class LgRefrigeratorCard extends HTMLElement {
 		}
 		this._userDataSubscribed = false;
 	}
+
 	getCardSize() {
 		return 5;
 	}
+
 	get _t() {
 		const strings = LgRefrigeratorCard.TRANSLATIONS;
 		const configured = String(this._config?.language || "").toLowerCase();
@@ -249,6 +261,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		}
 		return strings.en;
 	}
+
 	get _locale() {
 		return (
 			this._config?.language ||
@@ -256,9 +269,11 @@ class LgRefrigeratorCard extends HTMLElement {
 			this._hass?.language ||
 			"en");
 	}
+
 	_st(entityId) {
 		return entityId ? this._hass?.states?.[entityId] : undefined;
 	}
+
 	_num(entityId) {
 		const state = this._st(entityId);
 		if (!state)
@@ -266,6 +281,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		const value = Number.parseFloat(state.state);
 		return Number.isFinite(value) ? value : null;
 	}
+
 	_fmtNum(value, digits = 1) {
 		const number = Number.parseFloat(value);
 		if (!Number.isFinite(number))
@@ -274,10 +290,19 @@ class LgRefrigeratorCard extends HTMLElement {
 		 ? String(Number.parseFloat(number.toFixed(digits)))
 		 : String(Math.round(number));
 	}
+
 	_capitalize(value) {
 		const text = String(value ?? "");
 		return text ? text.charAt(0).toUpperCase() + text.slice(1) : text;
 	}
+
+	_unit(entityId) {
+		const unit = this._st(entityId)?.attributes?.unit_of_measurement;
+		if (unit)
+			return unit;
+		return this._hass?.config?.unit_system?.temperature || "°C";
+	}
+
 	_moreInfo(entityId) {
 		if (!entityId)
 			return;
@@ -289,6 +314,7 @@ class LgRefrigeratorCard extends HTMLElement {
 				composed: true,
 			}));
 	}
+
 	_zoneBounds(zone) {
 		const config = this._config;
 		const entity = config[`zone${zone}_temp_entity`];
@@ -306,11 +332,13 @@ class LgRefrigeratorCard extends HTMLElement {
 			step
 		};
 	}
+
 	_formatEventType(rawType) {
 		if (!rawType)
 			return null;
 		return String(rawType).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 	}
+
 	_relativeTime(isoString) {
 		const date = new Date(isoString);
 		if (Number.isNaN(date.getTime()))
@@ -328,6 +356,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		const diffDay = Math.round(diffHour / 24);
 		return rtf.format(diffDay, "day");
 	}
+
 	_setZoneValue(zone, delta) {
 		const config = this._config;
 		const entityId = config[`zone${zone}_temp_entity`];
@@ -345,9 +374,11 @@ class LgRefrigeratorCard extends HTMLElement {
 			value: next
 		});
 	}
+
 	_notificationStorageId() {
 		return this._config?.notification_entity || null;
 	}
+
 	_applyUserData(data) {
 		this._userData = data && typeof data === "object"
 			? data
@@ -359,6 +390,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		if (this._built)
 			this._update();
 	}
+
 	async _subscribeUserData() {
 		if (this._userDataSubscribed || !this._hass?.connection || !this._config?.notification_entity)
 			return;
@@ -376,6 +408,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			console.warn("LG Refrigerator Card: unable to subscribe to user data", error);
 		}
 	}
+
 	async _saveDismissedNotificationKey(key) {
 		const storageId = this._notificationStorageId();
 		if (!storageId || !this._hass)
@@ -402,6 +435,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			console.warn("LG Refrigerator Card: unable to save user data", error);
 		}
 	}
+
 	// Renders the LG control panel / display
 	_controlPanelSvg(px, py) {
 		return `
@@ -417,6 +451,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		  <path d="M${px + 5} ${py + 27} h16 a2 2 0 0 1 2 2 v3 a2 2 0 0 1 -2 2 h-16 a2 2 0 0 1 -2 -2 v-3 a2 2 0 0 1 2 -2 z" fill="#1c1e21"/>
 		`;
 	}
+
 	// French Door
 	_frenchDoorMarkup() {
 		return `
@@ -432,6 +467,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		  <rect x="30" y="141" width="36" height="4" rx="2" fill="#8f949b"/>
 		`;
 	}
+
 	// Side-by-Side
 	_sideBySideMarkup() {
 		return `
@@ -445,6 +481,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		  <rect x="51.9" y="36" width="2.6" height="105" rx="1.3" fill="#8f949b"/>
 		`;
 	}
+
 	// Bottom Freezer
 	_bottomFreezerMarkup() {
 		return `
@@ -456,6 +493,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		  <rect x="30" y="120" width="36" height="4" rx="2" fill="#8f949b"/>
 		`;
 	}
+
 	// Top Freezer
 	_topFreezerMarkup() {
 		return `
@@ -467,6 +505,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		  <rect x="14" y="75" width="2.6" height="80" rx="1.3" fill="#8f949b"/>
 		`;
 	}
+
 	_fridgeLayoutMarkup() {
 		switch (this._config.fridge_layout) {
 		case "side_by_side":
@@ -480,6 +519,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			return this._frenchDoorMarkup();
 		}
 	}
+
 	_fridgeSvgMarkup() {
 		return `
 		  <svg viewBox="0 0 96 176" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="Refrigerator illustration">
@@ -496,6 +536,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		  </svg>
 		`;
 	}
+
 	_build() {
 		const config = this._config;
 		const text = this._t;
@@ -737,18 +778,20 @@ class LgRefrigeratorCard extends HTMLElement {
 		this._el("fridgeVisual").classList.toggle("hidden", Boolean(config.hide_fridge_visual));
 		this._built = true;
 	}
+
 	_zoneMarkup(zone) {
 		return `
 	  <div class="zone-panel hidden" id="zone${zone}Panel">
 		<div class="stepper-btn" id="zone${zone}Minus"><ha-icon icon="mdi:minus"></ha-icon></div>
 		<div class="zone-center">
 		  <div class="zone-label" id="zone${zone}Label"></div>
-		  <div class="temp-value" id="zone${zone}Ring"><span class="temp-num" id="zone${zone}Temp">—</span><span class="temp-unit">°C</span></div>
+		  <div class="temp-value" id="zone${zone}Ring"><span class="temp-num" id="zone${zone}Temp">—</span><span class="temp-unit" id="zone${zone}Unit">°C</span></div>
 		</div>
 		<div class="stepper-btn" id="zone${zone}Plus"><ha-icon icon="mdi:plus"></ha-icon></div>
 	  </div>
 	`;
 	}
+
 	_onExpressClick() {
 		const entityId = this._config.express_mode_entity;
 		if (!entityId || !this._hass)
@@ -757,6 +800,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			entity_id: entityId
 		});
 	}
+
 	_toggle(entityId) {
 		const domain = entityId.split(".")[0];
 		const svcDomain = ["switch", "light", "input_boolean", "fan", "automation"].includes(domain)
@@ -766,6 +810,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			entity_id: entityId
 		});
 	}
+
 	_confirmTogglePlug() {
 		const config = this._config;
 		const text = this._t;
@@ -774,12 +819,14 @@ class LgRefrigeratorCard extends HTMLElement {
 			return;
 		this._toggle(config.plug_entity);
 	}
+
 	_dismissNotification() {
 		const key = this._currentNotificationKey;
 		this._dismissedNotificationKey = key;
 		this._saveDismissedNotificationKey(key);
 		this._el("notificationBanner").classList.add("hidden");
 	}
+
 	_updateDisplayScreen() {
 		const config = this._config;
 		const zone1Entity = config.zone1_temp_entity;
@@ -800,7 +847,7 @@ class LgRefrigeratorCard extends HTMLElement {
 			const value = this._num(zone1Entity);
 			const { step } = this._zoneBounds(1);
 			const formatted = value !== null ? this._fmtNum(value, Number.isInteger(step) ? 0 : 1) : null;
-			displayZone1.textContent = formatted !== null ? `${formatted}°C` : "--";
+			displayZone1.textContent = formatted !== null ? `${formatted}${this._unit(zone1Entity)}` : "--";
 		} else {
 			displayZone1.textContent = "";
 		}
@@ -808,11 +855,12 @@ class LgRefrigeratorCard extends HTMLElement {
 			const value = this._num(zone2Entity);
 			const { step } = this._zoneBounds(2);
 			const formatted = value !== null ? this._fmtNum(value, Number.isInteger(step) ? 0 : 1) : null;
-			displayZone2.textContent = formatted !== null ? `${formatted}°C` : "--";
+			displayZone2.textContent = formatted !== null ? `${formatted}${this._unit(zone2Entity)}` : "--";
 		} else {
 			displayZone2.textContent = "";
 		}
 	}
+
 	_update() {
 		const config = this._config;
 		const text = this._t;
@@ -915,6 +963,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		this._updateInfoItemBorders();
 		this._el("infoPanel").classList.toggle("hidden", !anyInfo);
 	}
+
 	_updateZone(zone) {
 		const config = this._config;
 		const tempEntity = config[`zone${zone}_temp_entity`];
@@ -927,9 +976,11 @@ class LgRefrigeratorCard extends HTMLElement {
 		const value = this._num(tempEntity);
 		const { min, max, step } = this._zoneBounds(zone);
 		this._el(`zone${zone}Temp`).textContent = value !== null ? this._fmtNum(value, Number.isInteger(step) ? 0 : 1) : "N/A";
+		this._el(`zone${zone}Unit`).textContent = this._unit(tempEntity);
 		this._el(`zone${zone}Minus`).classList.toggle("disabled", value === null || value <= min);
 		this._el(`zone${zone}Plus`).classList.toggle("disabled", value === null || value >= max);
 	}
+
 	_updateInfoItemBorders() {
 		let firstVisibleKey = null;
 		for (const itemKey of LgRefrigeratorCard.INFO_ITEM_KEYS) {
@@ -946,6 +997,7 @@ class LgRefrigeratorCard extends HTMLElement {
 		}
 	}
 }
+
 class LgRefrigeratorCardEditor extends HTMLElement {
 	static SELECT_OPTIONS = {
 		fridge_layout: [{
@@ -971,12 +1023,14 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 			},
 		],
 	};
+
 	static AUTO_LANGUAGE = "auto";
 	static DEFAULT_FRIDGE_LAYOUT = "french_door";
 	static DEFAULT_VISUAL_POSITION = "left";
 	static SWITCH_DEFAULTS = {
 		confirm_plug_off: LgRefrigeratorCard.DEFAULTS.confirm_plug_off,
 	};
+
 	static SECTION_ICONS = {
 		general: "mdi:cog-outline",
 		zone1: "mdi:fridge-outline",
@@ -985,15 +1039,18 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 		filters: "mdi:air-filter",
 		power: "mdi:flash-outline",
 	};
+
 	static PLACEHOLDER_TEXT_KEYS = {
 		name: "name",
 		zone1_label: "zone1_label",
 		zone2_label: "zone2_label",
 	};
+
 	constructor() {
 		super();
 		this._rendered = false;
 	}
+
 	setConfig(config) {
 		this._config = {
 			...config
@@ -1004,6 +1061,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 		}
 		this._updateValues();
 	}
+
 	set hass(hass) {
 		this._hass = hass;
 		if (!this._rendered) {
@@ -1012,6 +1070,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 		}
 		this._updateValues();
 	}
+
 	_languageOptions() {
 		const codes = Object.keys(LgRefrigeratorCard.TRANSLATIONS);
 		return [{
@@ -1024,6 +1083,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 				})),
 		];
 	}
+
 	_defaultStrings() {
 		const strings = LgRefrigeratorCard.TRANSLATIONS;
 		const configured = String(this._config?.language || "").toLowerCase();
@@ -1040,9 +1100,11 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 		}
 		return strings.en;
 	}
+
 	_sectionSummary(icon, title) {
 		return `<summary><span class="section-title"><ha-icon icon="${icon}"></ha-icon>${title}</span></summary>`;
 	}
+
 	_render() {
 		const icons = LgRefrigeratorCardEditor.SECTION_ICONS;
 		this.innerHTML = `
@@ -1138,9 +1200,11 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 		this._initializeSelectFields();
 		this._initializeStandardFields();
 	}
+
 	_entityPicker(key, label, domains = []) {
 		return `<div class="field"><span>${label}</span><ha-entity-picker data-config="${key}" data-domains="${domains.join(',')}" allow-custom-entity></ha-entity-picker></div>`;
 	}
+
 	_zoneSection(zone, defaultTitle, icon) {
 		return `
 	  <details class="section">
@@ -1154,6 +1218,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 	  </details>
 	`;
 	}
+
 	_initializeEntityPickers() {
 		this.querySelectorAll("ha-entity-picker[data-config]").forEach((picker) => {
 			picker.hass = this._hass;
@@ -1164,6 +1229,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 			picker.addEventListener("value-changed", (event) => this._valueChanged(event));
 		});
 	}
+
 	_initializeSelectFields() {
 		this.querySelectorAll("ha-selector[data-config]").forEach((selector) => {
 			const key = selector.dataset.config;
@@ -1180,6 +1246,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 			selector.addEventListener("value-changed", (event) => this._valueChanged(event));
 		});
 	}
+
 	_initializeStandardFields() {
 		this.querySelectorAll("input[data-config]").forEach((element) => {
 			element.addEventListener("input", (event) => this._valueChanged(event));
@@ -1188,6 +1255,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 			element.addEventListener("change", (event) => this._valueChanged(event));
 		});
 	}
+
 	_updateValues() {
 		if (!this._rendered || !this._config)
 			return;
@@ -1230,6 +1298,7 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 				element.value = value ?? "";
 		});
 	}
+
 	_valueChanged(event) {
 		if (!this._config)
 			return;
@@ -1267,12 +1336,15 @@ class LgRefrigeratorCardEditor extends HTMLElement {
 			}));
 	}
 }
+
 if (!customElements.get("lg-refrigerator-card-editor")) {
 	customElements.define("lg-refrigerator-card-editor", LgRefrigeratorCardEditor);
 }
+
 if (!customElements.get("lg-refrigerator-card")) {
 	customElements.define("lg-refrigerator-card", LgRefrigeratorCard);
 }
+
 window.customCards = window.customCards || [];
 if (!window.customCards.some((card) => card.type === "lg-refrigerator-card")) {
 	window.customCards.push({
@@ -1283,4 +1355,5 @@ if (!window.customCards.some((card) => card.type === "lg-refrigerator-card")) {
 		documentationURL: "https://github.com/KroFR/lg-refrigerator-ha-card",
 	});
 }
+
 console.info(`%c ❄️ LG-REFRIGERATOR-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
