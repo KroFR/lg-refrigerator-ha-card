@@ -40,13 +40,16 @@ This card is designed to work with entities exposed by the [LG Thinq](https://ww
 
 ### HACS (recommended)
 
-1. Open **HACS** in Home Assistant.
-2. Click on the three dots in the top right corner
-3. Select "Custom repositories"
-4. Add this repository URL `https://github.com/KroFR/lg-refrigerator-ha-card`
-5. Select "Dashboard"
-6. Click "Add"
-7. Search for **LG Refrigerator Card** and install it
+Use this link to directly go to the repository in HACS:
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=KroFR&repository=lg-refrigerator-ha-card)
+
+or
+
+1. Install HACS if you don't have it already
+2. Open HACS in Home Assistant
+3. Search for "LG Refrigerator Card"
+4. Click the download button
 
 ### Manual installation
 
